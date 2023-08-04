@@ -1,0 +1,42 @@
+const int ledPinRojo = 13; // Elige el pin donde está conectado el LED rojo
+const int ledPinVerde = 12; // Elige el pin donde está conectado el LED verde
+
+void setup() {
+  Serial.begin(9600);  // Inicia la comunicación serial a 9600 baudios
+  pinMode(ledPinRojo, OUTPUT); // Configura el pin del LED rojo como salida
+  pinMode(ledPinVerde, OUTPUT); // Configura el pin del LED verde como salida
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char command = Serial.read();  // Lee el comando enviado desde la PC
+    
+    // Ejemplo de acciones en función del comando recibido
+    switch (command) {
+      case 'A':
+        encenderLed(1, ledPinRojo); // Enciende el LED rojo una vez
+        break;
+      case 'B':
+        encenderLed(2, ledPinRojo); // Enciende el LED rojo dos veces
+        break;
+      case 'C': 
+        encenderLed(1, ledPinVerde); // Enciende el LED verde una vez
+        break;
+      case 'D':
+        encenderLed(2, ledPinVerde); // Enciende el LED verde dos veces
+        break;
+      // Puedes agregar más casos para otros comandos
+      default:
+        break;
+    }
+  }
+}
+
+void encenderLed(int veces, const int ledPin) {
+  for (int i = 0; i < veces; i++) {
+    digitalWrite(ledPin, HIGH); // Enciende el LED
+    delay(500); // Espera 500 milisegundos (0.5 segundos)
+    digitalWrite(ledPin, LOW); // Apaga el LED
+    delay(500); // Espera otros 500 milisegundos (0.5 segundos)
+  }
+}
